@@ -1,0 +1,71 @@
+# Local editors and Codex metadata
+.idea/
+.vscode/
+.agents/
+.codex
+*.swp
+*.swo
+
+# Python caches, test caches and coverage
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local Python/Conda environments
+.venv/
+venv/
+env/
+ENV/
+conda-env/
+
+# Secrets and machine-local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*token*
+*secret*
+*credential*
+
+# Datasets are obtained separately and must never be committed
+/data/dataset/
+
+# Generated training artifacts and intermediate results
+/output/
+/figures/
+/img/
+/tools/*.png
+/tools/*.pdf
+*.ckpt
+*.pt
+*.pth
+*.rfstg
+*.pkl
+*.pickle
+
+# Manually assembled plotting tables are not authoritative final results
+/tools/*points.csv
+
+# Local copies of external projects/baselines
+/FENCE-main/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Local release preparation and experiment outputs
+.aws/
+/results/
+/reports/
+/Paperspine output/
+
+# R session files
+.Rhistory
+.RData
+.Ruserdata

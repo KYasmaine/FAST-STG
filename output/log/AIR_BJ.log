@@ -1,0 +1,78 @@
+dataset = AIR-BJ
+split = chronological 6:2:2
+normalization_statistics = training_set_only
+history_steps = 12
+prediction_steps = 12
+backbone = UGNet
+backbone_hidden_dim = 32
+coordinate_hidden_dim = 128
+coordinate_graph_conditioning = enabled
+location_correction_scale = 0.1
+conditional_scale_bounds = [0.001, 5]
+coordinate_pretraining_epochs = 5
+freeze_coordinate_estimator_before_transport = true
+transport_target = standardized_future_innovations
+optimizer = Adam
+learning_rate = 0.002
+batch_size = 8
+maximum_epochs = 300
+early_stopping_patience = 10
+inference_source = N(0, I)
+sampler = Euler-Maruyama
+sampling_steps = 20
+stochastic_intensity_gamma = 0.08
+noise_schedule = gamma * (1 - tau)
+numerical_stability_delta = 0.001
+forecast_trajectories = 100
+|---Train--- |---Val Future-- -|-----Val History----|
+Epoch | Loss  Time | MAE     RMSE    |  MAE    RMSE   Time|
+   1.0| -0.173 5.7s | LS-pretrain 1/5 ValNLL -0.7765 muMAE 10.18 sigma 15.82 R(-0.181,1.029)
+best location-scale checkpoint updated at epoch 1: /home/Spatial-temporal Models/DiffSTG-main/output/model/rf_sde_xpred+AIR_BJ+s2022+h71107b4f13+split622RFSDE+Th-12+Tp-12+steps-20+mode-sde+target-location_scale+graph+stage-ls_pretrain.rfstg
+   2.0| -0.245 4.9s | LS-pretrain 2/5 ValNLL -0.7421 muMAE 11.13 sigma 16.81 R(-0.315,0.913)
+   3.0| -0.256 4.7s | LS-pretrain 3/5 ValNLL -0.7579 muMAE 10.73 sigma 17.34 R(-0.220,0.838)
+   4.0| -0.270 4.9s | LS-pretrain 4/5 ValNLL -0.7980 muMAE 10.25 sigma 16.70 R(-0.142,0.885)
+best location-scale checkpoint updated at epoch 4: /home/Spatial-temporal Models/DiffSTG-main/output/model/rf_sde_xpred+AIR_BJ+s2022+h71107b4f13+split622RFSDE+Th-12+Tp-12+steps-20+mode-sde+target-location_scale+graph+stage-ls_pretrain.rfstg
+   5.0| -0.274 4.9s | LS-pretrain 5/5 ValNLL -0.7431 muMAE 10.51 sigma 19.47 R(-0.210,0.791)
+location-scale pretraining complete; selected epoch 4 with validation objective=-0.798005
+restored best location-scale head from epoch 4 (validation objective=-0.798005)
+   6.0| 0.557 32.8s | 12.58  18.51   CRPS 0.3831 PICP 0.3650 MIS 118.56 Width 20.29 select=crps warmup | 0.00   0.00   154.77s
+   7.0| 0.458 29.6s | 16.44  23.02   CRPS 0.4687 PICP 0.6664 MIS 102.31 Width 46.20 select=crps warmup | 0.00   0.00   141.33s
+   8.0| 0.384 32.1s | 13.70  22.25   CRPS 0.3479 PICP 0.8128 MIS 83.53 Width 50.75 select=crps warmup | 0.00   0.00   137.93s
+   9.0| 0.347 30.9s | 12.41  19.35   CRPS 0.3318 PICP 0.8190 MIS 73.86 Width 44.37 select=crps warmup | 0.00   0.00   139.13s
+  10.0| 0.333 29.2s |[10.88  18.52  ] CRPS 0.3068 PICP 0.7878 MIS 73.60 Width 34.54 select=crps | 0.00   0.00   141.87s
+best crps checkpoint updated at epoch 10 (value=0.306787)
+  11.0| 0.322 30.4s |[10.63  18.38  ] CRPS 0.3062 PICP 0.7602 MIS 75.83 Width 31.30 select=crps | 0.00   0.00   141.84s
+best crps checkpoint updated at epoch 11 (value=0.306191)
+  12.0| 0.314 31.6s | 11.53  19.27   CRPS 0.3264 PICP 0.8457 MIS 69.89 Width 42.53 select=crps | 0.00   0.00   148.87s
+  13.0| 0.307 31.5s | 12.82  20.87   CRPS 0.3582 PICP 0.8682 MIS 73.45 Width 49.48 select=crps | 0.00   0.00   137.00s
+  14.0| 0.303 31.6s | 12.75  20.71   CRPS 0.3622 PICP 0.8774 MIS 72.75 Width 50.08 select=crps | 0.00   0.00   136.44s
+  15.0| 0.299 31.5s | 12.43  20.22   CRPS 0.3515 PICP 0.8605 MIS 72.65 Width 47.50 select=crps | 0.00   0.00   135.34s
+  16.0| 0.295 29.1s | 12.44  20.84   CRPS 0.3450 PICP 0.8405 MIS 75.05 Width 45.52 select=crps | 0.00   0.00   136.96s
+  17.0| 0.293 30.3s | 11.87  19.61   CRPS 0.3265 PICP 0.8185 MIS 74.14 Width 41.23 select=crps | 0.00   0.00   137.02s
+  18.0| 0.279 31.0s | 11.17  17.58   CRPS 0.3124 PICP 0.6811 MIS 79.62 Width 29.45 select=crps | 0.00   0.00   135.38s
+  19.0| 0.275 28.4s |[10.78  17.23  ] CRPS 0.3055 PICP 0.6647 MIS 80.82 Width 26.99 select=crps | 0.00   0.00   135.30s
+best crps checkpoint updated at epoch 19 (value=0.305530)
+  20.0| 0.273 30.6s |[10.73  17.25  ] CRPS 0.3042 PICP 0.6743 MIS 80.23 Width 27.24 select=crps | 0.00   0.00   135.31s
+best crps checkpoint updated at epoch 20 (value=0.304228)
+  21.0| 0.271 27.7s | 10.83  17.31   CRPS 0.3068 PICP 0.6789 MIS 80.09 Width 27.67 select=crps | 0.00   0.00   140.14s
+  22.0| 0.269 30.9s | 10.91  17.32   CRPS 0.3102 PICP 0.6429 MIS 83.80 Width 26.45 select=crps | 0.00   0.00   135.22s
+  23.0| 0.267 28.6s | 11.01  17.43   CRPS 0.3129 PICP 0.6356 MIS 85.08 Width 26.44 select=crps | 0.00   0.00   135.08s
+  24.0| 0.265 30.1s | 11.10  17.57   CRPS 0.3140 PICP 0.6416 MIS 85.11 Width 26.97 select=crps | 0.00   0.00   139.86s
+  25.0| 0.262 30.5s | 10.77  17.29   CRPS 0.3050 PICP 0.7058 MIS 78.22 Width 28.32 select=crps | 0.00   0.00   139.45s
+  26.0| 0.259 30.3s | 10.71  17.48   CRPS 0.3051 PICP 0.7333 MIS 77.53 Width 28.98 select=crps | 0.00   0.00   142.79s
+  27.0| 0.250 29.9s | 12.23  18.42   CRPS 0.3464 PICP 0.6348 MIS 88.10 Width 30.21 select=crps | 0.00   0.00   141.80s
+  28.0| 0.246 30.1s | 12.54  18.85   CRPS 0.3556 PICP 0.6436 MIS 89.63 Width 31.32 select=crps | 0.00   0.00   143.53s
+  29.0| 0.242 29.3s | 12.59  19.09   CRPS 0.3569 PICP 0.6592 MIS 89.90 Width 31.83 select=crps | 0.00   0.00   144.23s
+  30.0| 0.240 30.2s | 12.75  19.16   CRPS 0.3613 PICP 0.6313 MIS 92.80 Width 31.17 select=crps | 0.00   0.00   139.25s
+  31.0| 0.238 28.2s | 11.92  18.82   CRPS 0.3381 PICP 0.6945 MIS 86.89 Width 30.63 select=crps | 0.00   0.00   135.75s
+loaded checkpoint epoch:20, stage:residual_flow, selection:crps=0.3042276767731779
+residual spread calibration mode:horizon, samples:20, factors:1.254954,1.248705,1.255681,1.402027,1.389535,1.481359,1.444041,1.522491,1.479342,1.526166,1.394851,1.438770
+predict_path = '/home/Spatial-temporal Models/DiffSTG-main/output/forecast/rf_sde_xpred+AIR_BJ+s2022+h71107b4f13+split622.pkl'
+
+MAE = 16.35
+RMSE = 27.57
+CRPS = 0.29
+nominal_coverage = 0.90
+PICP90 = 0.9014
+PIW90 = 69.18
+MIS90 = 102.38
