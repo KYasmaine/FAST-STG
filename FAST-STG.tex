@@ -1,0 +1,2009 @@
+%%
+%% This is file `sigconf.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% samples.dtx  (with options: `all,proceedings,sigconf')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from sigconf.tex.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file samples.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%
+%%
+%% Commands for TeXCount
+%TC:macro \cite [option:text,text]
+%TC:macro \citep [option:text,text]
+%TC:macro \citet [option:text,text]
+%TC:envir table 0 1
+%TC:envir table* 0 1
+%TC:envir tabular [ignore] word
+%TC:envir displaymath 0 word
+%TC:envir math 0 word
+%TC:envir comment 0 0
+%%
+%% The first command in your LaTeX source must be the \documentclass
+%% command.
+%%
+%% For submission and review of your manuscript please change the
+%% command to \documentclass[manuscript, screen, review]{acmart}.
+%%
+%% When submitting camera ready or to TAPS, please change the command
+%% to \documentclass[sigconf]{acmart} or whichever template is required
+%% for your publication.
+%%
+%%
+
+\documentclass[sigconf, anonymous, review]{acmart}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+%% Rights management information.  This information is sent to you
+%% when you complete the rights form.  These commands have SAMPLE
+%% values in them; it is your responsibility as an author to replace
+%% the commands and values with those provided to you when you
+%% complete the rights form.
+\setcopyright{acmlicensed}
+\copyrightyear{2026}
+\acmYear{2026}
+\acmDOI{XXXXXXX.XXXXXXX}
+%% These commands are for a PROCEEDINGS abstract or paper.
+\acmConference[Conference acronym 'XX]{Make sure to enter the correct
+  conference title from your rights confirmation email}{June 03--05,
+  2018}{Woodstock, NY}
+%%
+%%  Uncomment \acmBooktitle if the title of the proceedings is different
+%%  from ``Proceedings of ...''!
+%%
+%%\acmBooktitle{Woodstock '18: ACM Symposium on Neural Gaze Detection,
+%%  June 03--05, 2018, Woodstock, NY}
+\acmISBN{978-1-4503-XXXX-X/2018/06}
+
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+
+%%
+%% For managing citations, it is recommended to use bibliography
+%% files in BibTeX format.
+%%
+%% You can then either use BibTeX with the ACM-Reference-Format style,
+%% or BibLaTeX with the acmnumeric or acmauthoryear sytles, that include
+%% support for advanced citation of software artefact from the
+%% biblatex-software package, also separately available on CTAN.
+%%
+%% Look at the sample-*-biblatex.tex files for templates showcasing
+%% the biblatex styles.
+%%
+%%
+%% The majority of ACM publications use numbered citations and
+%% references.  The command \citestyle{authoryear} switches to the
+%% "author year" style.
+%%
+%% If you are preparing content for an event
+%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
+%% citations and references.
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
+
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{FAST-STG: Forecasting-Aligned Stochastic Transport for Probabilistic Urban Spatio-Temporal Graph Forecasting}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+Urban sensing underpins Web-facing services such as traffic information
+platforms and environmental monitoring, where accurate forecasts and
+reliable uncertainty estimates are both important. Existing generative
+methods provide flexible tools for probabilistic spatio-temporal graph
+forecasting, yet their stochastic formulations may be misaligned with
+the conditional structure of forecasting. We identify two such
+misalignments: \emph{generation-object misalignment}, where observed history is included in the stochastic state despite already being known, and \emph{generation-coordinate misalignment}, where raw future
+values entangle predictable location and scale with stochastic
+variation. To address these issues, we propose \textbf{FAST-STG}, a forecasting-aligned stochastic transport framework that keeps the observed history fixed and unperturbed as conditioning and restricts stochastic evolution to the unknown future. FAST-STG further estimates node- and horizon-specific conditional location and scale from the
+observed history and spatial graph, and performs transport over
+standardized future innovations. The coordinate estimator is pretrained
+and frozen before transport learning, providing a stable conditional
+coordinate system. Experiments across six real-world datasets spanning air quality and traffic flow demonstrate competitive point forecasting accuracy, while probabilistic evaluations show consistent improvements in probabilistic forecast quality. Code is available at
+\url{https://anonymous.4open.science/r/FAST-STG-7D84}.
+\end{abstract}
+
+%%
+%% The code below is generated by the tool at http://dl.acm.org/ccs.cfm.
+%% Please copy and paste the code instead of the example below.
+%%
+%%
+%% Keywords. The author(s) should pick words that accurately describe
+%% the work being presented. Separate the keywords with commas.
+\keywords{probabilistic forecasting, spatio-temporal graph forecasting,
+stochastic transport, uncertainty quantification, urban sensing}
+%% A "teaser" image appears between the author and affiliation
+%% information and the body of the document, and typically spans the
+%% page.
+%%
+%% This command processes the author and affiliation and title
+%% information and builds the first part of the formatted document.
+\maketitle
+
+\section{Introduction}
+Urban sensing provides an important data layer for Web-facing urban
+services, including navigation systems, traffic-information platforms,
+environmental dashboards, and decision support
+services~\cite{wang2022spatiotemporal,tedjopurnomo2022traffic,
+mehmood2017iot}. These infrastructures collect time-series observations
+from distributed sensing locations, giving rise to graph-structured
+spatio-temporal signals governed by local temporal dynamics and spatial
+dependencies~\cite{guo2019attention,bai2020adaptive}. For such Web-connected sensing services, a key challenge
+is to transform continuously updated graph-structured observations into
+reliable forecasts that characterize both future system states and
+their associated uncertainty. Traffic flow
+forecasting~\cite{yuan2021traffic,zhang2026msthg} and air quality
+forecasting~\cite{zhu2021airquality,liang2023airformer,
+han2021jointair,wu2026airdde} are two representative applications.
+Despite differences in sensing mechanisms, temporal resolutions, and
+spatial dependencies, both require inferring future system states from
+historical observations over sensor networks~\cite{wang2020pm25gnn,
+zheng2020gman}. As illustrated in Figure~\ref{fig:motivation}, the
+observed history and spatial graph provide fixed conditioning
+information, whereas the future remains unknown. Conventional point
+predictors typically produce a single forecast
+trajectory~\cite{yu2018spatio,li2018diffusion,wu2019graph}, providing
+limited information about the range and likelihood of plausible future
+outcomes~\cite{gneiting2007scoring,salinas2020deepar}. Quantifying this uncertainty is important for Web-connected urban
+information services because similar point forecasts may correspond to
+substantially different levels of predictive uncertainty. This motivates probabilistic spatio-temporal graph forecasting as a foundation for such services, aiming to characterize the
+conditional distribution of future graph signals given historical
+observations and spatial dependencies~\cite{rasul2021timegrad,
+wen2023diffstg}.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]
+    {Figs/Fig1_Motivation.pdf}
+    \caption{
+        Motivation and application setting of probabilistic forecasting
+        for Web-connected urban sensing. Historical time-series observations
+        and spatial graph structures provide deterministic context, whereas
+        unknown future graph signals are modeled probabilistically. The
+        illustrated platform is conceptual rather than an implemented
+        online system.
+    }
+    \label{fig:motivation}
+\end{figure}
+
+Probabilistic forecasting has progressed from likelihood-based sequence
+models~\cite{salinas2020deepar} toward more flexible generative
+approaches~\cite{rasul2021timegrad,tashiro2021csdi,kollovieh2025tsflow}. Autoregressive
+methods such as DeepAR~\cite{salinas2020deepar} parameterize predictive
+distributions with tractable likelihoods and recursively generate future
+observations. Diffusion-based methods such as
+TimeGrad~\cite{rasul2021timegrad} and
+CSDI~\cite{tashiro2021csdi} introduce iterative denoising into
+probabilistic time-series forecasting and imputation, while
+DiffSTG~\cite{wen2023diffstg} extends this paradigm to spatio-temporal
+graphs by incorporating graph-temporal dependencies into the denoising
+process. More recently, flow matching~\cite{lipman2023flow} and
+rectified flow~\cite{liu2023rectified} formulate generation as
+continuous transport between distributions, with
+TSFlow~\cite{kollovieh2025tsflow} adapts conditional flow matching to
+probabilistic time-series forecasting. Together, these developments
+have expanded probabilistic forecasting from explicit distribution
+parameterization to diffusion and continuous transport. However,
+existing studies have largely focused on \emph{how} flexible predictive
+distributions are generated, while the forecasting-specific question
+of \emph{which variables} should participate in stochastic generation
+has received relatively limited attention.
+
+This unresolved issue reveals a fundamental asymmetry in conditional
+forecasting: the historical window $\mathbf{X}_H$ is observed
+conditioning, whereas the future window $\mathbf{X}_F$ remains the
+unknown prediction target, as reflected in likelihood-based, diffusion,
+and flow-based forecasting formulations~\cite{salinas2020deepar,
+rasul2021timegrad,kollovieh2025tsflow}. Conditional generative models~\cite{tashiro2021csdi,liu2023pristi}
+typically distinguish observed variables from those to be inferred
+through masking or conditioning mechanisms, while a recent study~\cite{li2026backtobasics} further shows that the choice of prediction target can materially affect generative
+learning. Diffusion~\cite{ho2020ddpm} and
+score-based~\cite{song2021score} formulations apply stochastic
+perturbation and recovery to variables included in the generative state.
+If this state extends beyond the unknown future, observed history may
+also undergo unnecessary stochastic evolution and reconstruction.
+This occurs in generalized STG diffusion formulations such as
+DiffSTG~\cite{wen2023diffstg}, where history and future are placed
+within a shared diffusion state. We term this structural discrepancy
+\emph{generation-object misalignment}. Accordingly, a
+forecasting-aligned generative process should preserve
+$\mathbf{X}_H$ as fixed conditioning and restrict stochastic evolution
+to $\mathbf{X}_F$.
+
+Once stochastic evolution is restricted to the unknown future, a second
+question arises: in which coordinates should that future be modeled? A recent generative study~\cite{li2026backtobasics} suggests that target
+parameterization can substantially affect the learning problem,
+while forecasting methods have increasingly separated predictable
+structure from stochastic variation. Re-Diffusion~\cite{zhang2026rediffusion} models residual errors from a pretrained forecaster, and
+NsDiff~\cite{ye2025nsdiff} incorporates pretrained conditional mean and variance estimates
+through a location and scale noise model. CW-Gen~\cite{yang2026cwgen} whitens forecasting targets using estimated conditional means and
+sliding-window covariances for both diffusion and flow matching, while CoST~\cite{sheng2026cost} combines conditional mean prediction
+with residual diffusion and spatially adaptive scale modeling. These developments indicate the benefit of
+separating predictable conditional structure from stochastic variation.
+However, in spatio-temporal graph forecasting, conditional location and
+uncertainty scale can vary across both nodes and forecast horizons
+according to the observed history and graph. Directly transporting the
+raw future therefore requires the generative field to jointly represent
+predictable location, heterogeneous scale, and residual distributional
+shape. We refer to this discrepancy as
+\emph{generation-coordinate misalignment}, where the stochastic target
+remains expressed in coordinates entangled with context-dependent
+location and scale.
+
+To address both forms of misalignment, we propose
+\textbf{FAST-STG}, a \textbf{f}orecasting-\textbf{a}ligned
+\textbf{s}tochastic \textbf{t}ransport framework for probabilistic
+spatio-temporal graph forecasting. FAST-STG keeps the observed history
+fixed and unperturbed as conditioning and restricts stochastic evolution
+to the unknown future, thereby aligning the stochastic state with the
+forecasting task. It further estimates node- and horizon-specific
+conditional location and scale from the observed history and spatial
+graph, and performs transport over standardized future innovations
+rather than raw future values. The coordinate estimator is pretrained
+and frozen before transport learning, providing a stable conditional
+coordinate system throughout transport optimization. Through this
+design, FAST-STG keeps observed contextual evidence outside the
+stochastic state and separates predictable conditional structure from
+stochastic variation.
+
+Our main contributions are summarized as follows:
+
+\begin{itemize}
+
+\item We identify two forms of misalignment between generative modeling
+and spatio-temporal forecasting:
+\emph{generation-object misalignment}, where stochastic evolution
+extends beyond the unknown future variables, and
+\emph{generation-coordinate misalignment}, where the stochastic target
+remains expressed in coordinates entangled with conditional location
+and scale. This formulation highlights two forecasting-specific design
+principles for stochastic generation.
+
+\item We propose FAST-STG, which restricts stochastic transport to the
+unknown future and constructs node- and horizon-specific conditional
+location and scale coordinates from the observed history and spatial
+graph. FAST-STG transports standardized future innovations and employs
+a staged training strategy that freezes the coordinate estimator before
+transport learning, thereby separating predictable conditional
+structure from stochastic variation.
+
+\item We evaluate FAST-STG on six real-world datasets from two urban
+sensing domains, including four traffic flow datasets and two air
+quality datasets. Experiments cover point forecasting accuracy,
+probabilistic forecast quality, component ablations, sensitivity
+analysis, qualitative forecasting behavior, and computational
+efficiency, demonstrating the effectiveness of FAST-STG across both
+domains.
+
+\end{itemize}
+
+\section{Related Work}
+\subsection{Probabilistic and Generative Spatio-temporal Forecasting}
+
+Existing spatio-temporal forecasting methods have developed increasingly
+expressive mechanisms for modeling dependencies over sensor networks.
+STGCN~\cite{yu2018spatio} combines graph convolution with temporal
+convolution, while DCRNN~\cite{li2018diffusion} integrates diffusion
+convolution into recurrent sequence modeling. Graph
+WaveNet~\cite{wu2019graph} and AGCRN~\cite{bai2020adaptive} further
+learn adaptive spatial dependencies from data. More recent approaches
+extend graph forecasting through attention and Transformer
+architectures~\cite{liang2023airformer,han2021jointair}, continuous
+dynamics~\cite{long2024delay,wu2026airdde}, and hypergraph
+modeling~\cite{zhang2026msthg}. These methods substantially improve
+spatio-temporal representation learning, but primarily focus on point
+forecasting and provide limited characterization of predictive
+uncertainty.
+
+Probabilistic forecasting addresses this limitation through explicit
+distribution modeling or stochastic generation. DeepAR
+~\cite{salinas2020deepar} parameterizes predictive distributions with
+autoregressive likelihoods. TimeGrad~\cite{rasul2021timegrad} introduces
+conditional diffusion for probabilistic forecasting, while
+CSDI~\cite{tashiro2021csdi} learns conditional distributions of
+unobserved values. Flow matching~\cite{lipman2023flow}, rectified
+flow~\cite{liu2023rectified}, and stochastic
+interpolants~\cite{albergo2025stochastic} provide alternative
+distribution transport formulations, with TSFlow
+~\cite{kollovieh2025tsflow} adapting conditional flow matching to
+probabilistic time-series forecasting. For graph-structured data,
+DiffSTG~\cite{wen2023diffstg} incorporates spatio-temporal dependencies
+into denoising diffusion, GCRDD~\cite{li2023gcrdd} combines graph
+recurrent modeling with conditional diffusion, and
+USTD~\cite{hu2024unifying} develops a unified diffusion formulation for
+probabilistic spatio-temporal graph learning. SpecSTG
+~\cite{lin2025specstg} further performs probabilistic generation in the
+spectral domain. Despite their different generative mechanisms, these
+methods mainly advance distributional flexibility and spatio-temporal
+dependency modeling, while the explicit alignment between the
+stochastic state and the conditional structure of forecasting remains
+comparatively underexplored.
+
+\subsection{Residual and Conditional Coordinate Modeling}
+
+A growing line of probabilistic forecasting research reduces the burden
+of generative modeling by separating predictable structure from
+stochastic variation. Re-Diffusion~\cite{zhang2026rediffusion} applies a
+pretrained forecaster and models the resulting residual distribution in
+latent space, thereby concentrating generative learning on deviations
+that remain unexplained by the deterministic prediction.
+CoST~\cite{sheng2026cost} similarly combines conditional mean prediction
+with residual diffusion and further accounts for spatially varying
+uncertainty scales. Related hybrid approaches decompose the forecasting
+target according to uncertainty or temporal structure.
+D$^3$U~\cite{li2025d3u} assigns high-certainty components to a point
+forecaster and models uncertain components with conditional diffusion,
+while TCDM~\cite{xu2025tcdm} separates trend and residual dynamics
+before applying diffusion to the residual component. HySRD-Net
+~\cite{chen2026hysrd} extends trend-residual decomposition to
+probabilistic spatio-temporal graph forecasting and models residual
+uncertainty in the graph spectral domain. Collectively, these methods
+show that removing predictable components can simplify the stochastic
+learning problem and allow generative models to focus on uncertainty
+that remains after deterministic structure has been extracted. Their
+residual representations, however, are largely determined by the
+preceding decomposition or point predictor, and do not necessarily
+provide an explicit conditional coordinate system that adapts jointly
+to spatial location and forecast horizon.
+
+A complementary direction explicitly adapts the coordinates in which
+the stochastic target is modeled. NsDiff~\cite{ye2025nsdiff} constructs
+a location and scale noise model from pretrained conditional mean and
+variance estimates, allowing diffusion to operate relative to the
+conditional statistics of the future rather than directly in the raw
+observation space. CW-Gen~\cite{yang2026cwgen} further whitens
+forecasting targets using estimated conditional means and covariances
+and applies the resulting representation to both diffusion and flow
+matching. Compared with residual decomposition alone, such approaches
+more directly modify the geometry and scale of the generative target,
+highlighting the importance of conditional reparameterization for
+distribution learning. Nevertheless, spatio-temporal graph forecasting
+introduces additional heterogeneity because conditional location and
+uncertainty scale can vary simultaneously across sensing nodes and
+forecast horizons according to both historical states and spatial
+dependencies. The joint construction of graph-conditioned,
+node- and horizon-specific coordinates, together with a staged training
+strategy that keeps these coordinates fixed during subsequent transport
+learning, remains comparatively underexplored.
+
+\section{Methodology}
+\label{sec:method}
+
+This section presents FAST-STG for probabilistic spatio-temporal graph
+forecasting. FAST-STG aligns stochastic generation with forecasting
+along two dimensions: it restricts stochastic evolution to the unknown
+future and constructs conditional location and scale coordinates for
+future transport. We first formulate the forecasting problem and then
+describe conditional coordinate pretraining, future-only transport
+learning, and stochastic sampling for probabilistic prediction.
+
+\subsection{Problem Formulation}
+\label{sec:problem_formulation}
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.90\textwidth]{Figs/Fig2.pdf}
+    \caption{
+    Overall framework of FAST-STG.
+    (a) Conditional coordinate pretraining estimates node- and
+    horizon-specific conditional location and scale from historical
+    observations and graph structure.
+    (b) Future-only transport training learns stochastic transport in
+    the standardized future innovation space while keeping historical
+    observations fixed as conditioning.
+    }
+    \label{fig:framework}
+\end{figure*}
+
+Let $\mathcal{G}=(\mathcal{V},\mathcal{E},\mathbf{A})$ denote a
+spatial graph, where $\mathcal{V}$ contains $N$ sensor nodes,
+$\mathcal{E}$ represents their spatial relations, and
+$\mathbf{A}\in\mathbb{R}^{N\times N}$ is the adjacency matrix. At time
+step $t$, observations over all nodes are denoted by
+$\mathbf{x}_{t}\in\mathbb{R}^{N\times F}$, where $F$ is the number of
+observed features per node. Given a historical window of length
+$T_h$ and a forecast horizon of length $T_p$, we define
+%
+\begin{equation}
+\begin{aligned}
+\mathbf{X}^{\mathrm{his}}
+&=
+[\mathbf{x}_{t-T_h+1},\ldots,\mathbf{x}_{t}]
+\in\mathbb{R}^{T_h\times N\times F},\\
+\mathbf{X}^{\mathrm{fut}}
+&=
+[\mathbf{x}_{t+1},\ldots,\mathbf{x}_{t+T_p}]
+\in\mathbb{R}^{T_p\times N\times F}.
+\end{aligned}
+\label{eq:history_future}
+\end{equation}
+%
+Probabilistic spatio-temporal graph forecasting aims to characterize
+the conditional distribution of the unknown future given the observed
+history and spatial graph:
+%
+\begin{equation}
+p\left(
+\mathbf{X}^{\mathrm{fut}}
+\mid
+\mathbf{X}^{\mathrm{his}},\mathbf{A}
+\right).
+\label{eq:forecasting_distribution}
+\end{equation}
+%
+At inference time, this distribution is represented by $S$ sampled
+future trajectories,
+$\{\widehat{\mathbf{X}}^{\mathrm{fut},(s)}\}_{s=1}^{S}$,
+which characterize plausible future realizations and predictive
+uncertainty.
+
+\subsection{Conditional Coordinate Pretraining}
+\label{sec:coordinate_pretraining}
+
+FAST-STG first learns a conditional coordinate system before stochastic
+transport. As illustrated in Figure~\ref{fig:framework}(a), a
+graph-conditioned location and scale estimator $f_{\phi}$ takes the
+observed history and spatial graph as input and predicts node- and
+horizon-specific coordinate parameters:
+%
+\begin{equation}
+\left(
+\boldsymbol{\mu}_{\phi},
+\boldsymbol{\sigma}_{\phi}
+\right)
+=
+f_{\phi}
+\left(
+\mathbf{X}^{\mathrm{his}},
+\mathbf{A}
+\right),
+\label{eq:coordinate_estimator}
+\end{equation}
+%
+where
+$\boldsymbol{\mu}_{\phi},
+\boldsymbol{\sigma}_{\phi}
+\in\mathbb{R}^{T_p\times N\times F}$.
+
+To capture temporal context and spatial dependencies, the estimator
+first encodes the historical observations and then propagates the
+resulting representations over the sensor graph:
+%
+\begin{equation}
+\mathbf{H}
+=
+\operatorname{Enc}_{\phi}
+\left(
+\mathbf{X}^{\mathrm{his}}
+\right),
+\qquad
+\mathbf{G}
+=
+\operatorname{GraphProp}_{\phi}
+\left(
+\mathbf{H},\mathbf{A}
+\right),
+\label{eq:coordinate_encoding}
+\end{equation}
+%
+where $\mathbf{G}=\{\mathbf{g}_{v}\}_{v=1}^{N}$ contains a
+graph-aware representation for each sensor node. For each forecast
+horizon $j\in\{1,\ldots,T_p\}$, corresponding to the future time step
+$t+j$, we introduce a learnable horizon embedding $\mathbf{e}_{j}$ and
+construct
+\begin{equation}
+\mathbf{q}_{v,j}
+=
+\operatorname{Dec}_{\phi}
+\left(
+\mathbf{g}_{v}
++
+\mathbf{e}_{j}
+\right).
+\label{eq:coordinate_horizon_representation}
+\end{equation}
+The conditional location is parameterized as a correction to the most
+recent observation, while the conditional scale is bounded to remain
+positive:
+\begin{equation}
+\begin{gathered}
+\boldsymbol{\mu}_{\phi,v,j}
+=
+\mathbf{x}_{t,v}
++
+\alpha_{\mu}
+\left(
+\mathbf{W}_{\mu}\mathbf{q}_{v,j}
++
+\mathbf{b}_{\mu}
+\right),
+\\
+\boldsymbol{\sigma}_{\phi,v,j}
+=
+\sigma_{\min}
++
+\left(
+\sigma_{\max}-\sigma_{\min}
+\right)
+\operatorname{sigmoid}
+\left(
+\mathbf{W}_{\sigma}\mathbf{q}_{v,j}
++
+\mathbf{b}_{\sigma}
+\right).
+\end{gathered}
+\label{eq:conditional_location_scale}
+\end{equation}
+Here, $\alpha_{\mu}$ controls the magnitude of the location correction,
+while $\sigma_{\min}$ and $\sigma_{\max}$ specify the lower and upper
+bounds of the conditional scale. This parameterization allows the
+coordinate system to adapt across sensor nodes and forecast horizons
+according to the observed history and spatial graph.
+
+The coordinate estimator is pretrained using the future observations
+$\mathbf{X}^{\mathrm{fut}}$ by minimizing the following diagonal
+Gaussian negative log likelihood, denoted as the location and scale
+loss $\mathcal{L}_{\mathrm{LS}}$:
+%
+\begin{equation}
+\mathcal{L}_{\mathrm{LS}}(\phi)
+=
+\operatorname{mean}
+\left[
+\frac{1}{2}
+\left(
+\frac{
+\mathbf{X}^{\mathrm{fut}}
+-
+\boldsymbol{\mu}_{\phi}
+}{
+\boldsymbol{\sigma}_{\phi}
+}
+\right)^{2}
++
+\log
+\boldsymbol{\sigma}_{\phi}
+\right],
+\label{eq:ls_loss}
+\end{equation}
+%
+where all operations are applied element-wise. This objective is used
+only to estimate the conditional location and scale coordinates and
+does not impose a Gaussian form on the final predictive distribution.
+After pretraining, the estimator parameters $\phi$ are frozen, yielding
+a fixed conditional coordinate system for subsequent future-only
+transport learning.
+
+\subsection{Future-Only Transport Training}
+\label{sec:future_transport_training}
+
+After conditional coordinate pretraining, the estimator parameters
+$\phi$ are frozen and the learned location and scale define the
+coordinate system for transport. The future observations are
+standardized as
+%
+\begin{equation}
+\mathbf{R}^{\mathrm{fut}}
+=
+\left(
+\mathbf{X}^{\mathrm{fut}}
+-
+\boldsymbol{\mu}_{\phi}
+\right)
+\oslash
+\boldsymbol{\sigma}_{\phi},
+\label{eq:standardized_innovation}
+\end{equation}
+%
+where $\oslash$ denotes element-wise division. The resulting
+$\mathbf{R}^{\mathrm{fut}}
+\in\mathbb{R}^{T_p\times N\times F}$
+represents the standardized future innovation obtained by centering
+on the conditional location and normalizing by the conditional scale. Because the coordinate estimator remains frozen, this target
+representation is fixed throughout transport learning.
+
+FAST-STG performs stochastic transport only over the unknown future
+while keeping the observed history fixed and unperturbed as conditioning. We first
+sample a Gaussian source
+%
+\begin{equation}
+\mathbf{Z}_{0}
+\sim
+\mathcal{N}
+\left(
+\mathbf{0},
+\mathbf{I}
+\right),
+\label{eq:transport_source}
+\end{equation}
+%
+where
+$\mathbf{Z}_{0}\in\mathbb{R}^{T_p\times N\times F}$,
+and draw a continuous transport time
+$\tau\sim\mathcal{U}(0,1)$. We then construct a linear path between the
+Gaussian source and the standardized future innovation:
+%
+\begin{equation}
+\mathbf{Z}_{\tau}
+=
+(1-\tau)\mathbf{Z}_{0}
++
+\tau\mathbf{R}^{\mathrm{fut}}.
+\label{eq:linear_transport_path}
+\end{equation}
+%
+The stochastic state therefore remains defined exclusively over the
+future interval throughout transport learning.
+
+To provide the graph-temporal backbone with complete temporal context,
+we concatenate the evolving future state with the fixed historical
+observations and construct a masked conditioning sequence:
+%
+\begin{equation}
+\overline{\mathbf{Z}}_{\tau}
+=
+\operatorname{Cat}_{t}
+\left(
+\mathbf{X}^{\mathrm{his}},
+\mathbf{Z}_{\tau}
+\right),
+\qquad
+\mathbf{C}
+=
+\operatorname{Cat}_{t}
+\left(
+\mathbf{X}^{\mathrm{his}},
+\mathbf{0}
+\right),
+\label{eq:future_only_inputs}
+\end{equation}
+%
+where $\operatorname{Cat}_{t}$ denotes concatenation along the temporal
+dimension and
+$\mathbf{0}\in\mathbb{R}^{T_p\times N\times F}$
+masks the unobserved future interval. Although
+$\overline{\mathbf{Z}}_{\tau}$ spans the complete historical and future
+window, its historical segment is copied directly from
+$\mathbf{X}^{\mathrm{his}}$ and remains unchanged. Hence, only
+$\mathbf{Z}_{\tau}$ participates in stochastic evolution.
+
+Following DiffSTG~\cite{wen2023diffstg}, we employ UGNet as the
+graph-temporal backbone, allowing the comparison to focus on the
+stochastic formulation rather than changes to the backbone
+architecture. Given the state-augmented sequence, masked condition,
+transport time, and spatial graph, UGNet predicts the clean future
+innovation:
+%
+\begin{equation}
+\widehat{\mathbf{R}}_{\theta}^{\mathrm{fut}}
+=
+\Pi_{\mathrm{fut}}
+\left[
+\operatorname{UGNet}_{\theta}
+\left(
+\overline{\mathbf{Z}}_{\tau},
+\tau;
+\mathbf{C},
+\mathbf{A}
+\right)
+\right],
+\label{eq:future_only_prediction}
+\end{equation}
+%
+where $\Pi_{\mathrm{fut}}$ retains the final $T_p$ time steps of the
+backbone output. The historical output is discarded and does not enter
+the transport objective. As illustrated in
+Figure~\ref{fig:ugnet}, UGNet consists of stacked spatio-temporal
+residual blocks that capture temporal and spatial dependencies through
+temporal convolution and graph convolution operations.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{Figs/UGNet-Final.pdf}
+    \caption{
+    Architecture of the conditioned UGNet backbone used for future
+    innovation prediction.
+    }
+    \label{fig:ugnet}
+\end{figure}
+
+Rather than directly supervising a transport velocity, FAST-STG learns
+the clean endpoint using the following transport loss
+$\mathcal{L}_{\mathrm{T}}$:
+%
+\begin{equation}
+\mathcal{L}_{\mathrm{T}}(\theta)
+=
+\mathbb{E}
+\left[
+\left\|
+\widehat{\mathbf{R}}_{\theta}^{\mathrm{fut}}
+-
+\mathbf{R}^{\mathrm{fut}}
+\right\|_{2}^{2}
+\right],
+\label{eq:transport_loss}
+\end{equation}
+%
+where the expectation is taken over training samples, Gaussian source
+noise, and transport times. During this stage, gradients update only
+the UGNet parameters $\theta$, while the pretrained coordinate
+estimator remains frozen. The resulting model learns future-only
+transport in a fixed conditional innovation space.
+
+\subsection{Stochastic Sampling and Inverse Transformation}
+\label{sec:sampling_reconstruction}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{Figs/SDE采样示意图.pdf}
+    \caption{
+    Stochastic sampling procedure of FAST-STG. Starting from a Gaussian
+    future innovation state, an endpoint-induced conditional transport
+    field is integrated through $K$ Euler--Maruyama steps while the
+    observed history remains fixed as conditioning. Repeating the
+    procedure with independent source and noise samples yields multiple
+    probabilistic forecasts.
+    }
+    \label{fig:sampling}
+\end{figure}
+
+At inference time, the pretrained coordinate estimator and transport
+backbone are fixed. FAST-STG generates future innovations by integrating
+an endpoint-induced conditional transport field, as illustrated in
+Figure~\ref{fig:sampling}. For the linear path in
+Eq.~\eqref{eq:linear_transport_path},
+%
+\begin{equation}
+\mathbf{R}^{\mathrm{fut}}
+-
+\mathbf{Z}_{\tau}
+=
+(1-\tau)
+\left(
+\mathbf{R}^{\mathrm{fut}}
+-
+\mathbf{Z}_{0}
+\right).
+\label{eq:endpoint_velocity_relation}
+\end{equation}
+%
+This relation allows the transport direction to be constructed from the
+predicted clean endpoint. We discretize the transport interval into
+$K$ sampling steps with $\Delta\tau=1/K$ and
+$\tau_k=k\Delta\tau$ for $k=0,\ldots,K-1$. At sampling step $k$,
+UGNet re-estimates the clean future innovation from the current state
+$\mathbf{Z}_{k}$ under the same fixed historical conditioning used
+during training. Denoting this prediction by
+$\widehat{\mathbf{R}}_{\theta,k}^{\mathrm{fut}}$, we define
+%
+\begin{equation}
+\mathbf{v}_{\theta}
+\left(
+\mathbf{Z}_{k},\tau_k
+\mid
+\mathbf{X}^{\mathrm{his}},\mathbf{A}
+\right)
+=
+\frac{
+\widehat{\mathbf{R}}_{\theta,k}^{\mathrm{fut}}
+-
+\mathbf{Z}_{k}
+}{
+1-\tau_k+\delta
+},
+\label{eq:transport_velocity}
+\end{equation}
+%
+where $\delta>0$ is a small constant for numerical stability.
+
+To maintain stochasticity during generation, FAST-STG augments the
+endpoint-induced transport direction with a time-dependent diffusion
+term:
+%
+\begin{equation}
+\mathrm{d}\mathbf{Z}_{\tau}
+=
+\mathbf{v}_{\theta}
+\left(
+\mathbf{Z}_{\tau},\tau
+\mid
+\mathbf{X}^{\mathrm{his}},\mathbf{A}
+\right)
+\mathrm{d}\tau
++
+g(\tau)\mathrm{d}\mathbf{W}_{\tau},
+\qquad
+g(\tau)=\gamma(1-\tau),
+\label{eq:transport_sde}
+\end{equation}
+%
+where $\mathbf{W}_{\tau}$ is a standard Wiener process and $\gamma$
+controls the stochastic intensity. The diffusion magnitude decreases
+as the trajectory approaches the terminal future innovation.
+
+Starting from the Gaussian source in
+Eq.~\eqref{eq:transport_source}, the sampling procedure proceeds over
+the $K$ discretized transport steps. At each step, the current future
+state is concatenated with the unchanged history,
+%
+\begin{equation}
+\overline{\mathbf{Z}}_{k}
+=
+\operatorname{Cat}_{t}
+\left(
+\mathbf{X}^{\mathrm{his}},
+\mathbf{Z}_{k}
+\right),
+\label{eq:sampling_input}
+\end{equation}
+%
+and UGNet predicts
+$\widehat{\mathbf{R}}_{\theta,k}^{\mathrm{fut}}$
+using the fixed masked condition $\mathbf{C}$ defined in
+Eq.~\eqref{eq:future_only_inputs}. The future state is then updated by
+Euler--Maruyama:
+%
+\begin{equation}
+\mathbf{Z}_{k+1}
+=
+\mathbf{Z}_{k}
++
+\Delta\tau\,
+\mathbf{v}_{\theta}
+\left(
+\mathbf{Z}_{k},\tau_k
+\mid
+\mathbf{X}^{\mathrm{his}},\mathbf{A}
+\right)
++
+\gamma(1-\tau_k)
+\sqrt{\Delta\tau}\,
+\boldsymbol{\epsilon}_{k},
+\label{eq:euler_maruyama}
+\end{equation}
+%
+where
+$\boldsymbol{\epsilon}_{k}
+\sim
+\mathcal{N}(\mathbf{0},\mathbf{I})$
+is independently sampled at each step. Only the future state evolves
+during sampling, while the historical observations remain unchanged.
+
+After the final step, $\mathbf{Z}_{K}$ represents a generated
+standardized future innovation. We map it back to the observation space
+using the frozen conditional coordinates:
+%
+\begin{equation}
+\widehat{\mathbf{X}}^{\mathrm{fut}}
+=
+\boldsymbol{\mu}_{\phi}
++
+\boldsymbol{\sigma}_{\phi}
+\odot
+\mathbf{Z}_{K},
+\label{eq:inverse_coordinate_transform}
+\end{equation}
+%
+where $\odot$ denotes element-wise multiplication. Repeating the
+sampling procedure with $S$ independent Gaussian source and Wiener
+noise realizations produces
+%
+\begin{equation}
+\left\{
+\widehat{\mathbf{X}}^{\mathrm{fut},(s)}
+\right\}_{s=1}^{S},
+\label{eq:forecast_samples}
+\end{equation}
+%
+which approximate the conditional predictive distribution.
+
+\section{Experiments}
+\label{sec:experiments}
+
+We evaluate FAST-STG on air quality and traffic flow forecasting tasks
+from three perspectives. Specifically, we address the following
+questions: \textbf{(Q1)} How does FAST-STG compare with existing
+probabilistic forecasting methods in terms of predictive distribution
+quality and point forecasting accuracy? \textbf{(Q2)} How do
+future-only stochastic transport and conditional location and scale
+coordinates individually and jointly affect forecasting performance?
+\textbf{(Q3)} How sensitive is FAST-STG to its transport and sampling
+configurations, and what computational cost does stochastic inference
+introduce? The main text reports probabilistic comparisons and
+controlled ablations on AIR-BJ, AIR-GZ, and PEMS08, sensitivity
+analysis on AIR-GZ, and computational efficiency on AIR-BJ. Additional
+point forecasting results on the traffic flow datasets are provided in
+Appendix~\ref{app:point_results}.
+
+\subsection{Experimental Setup}
+\label{sec:experimental_setup}
+
+\subsubsection{Datasets}
+
+We evaluate FAST-STG on six real-world spatio-temporal datasets from
+two urban sensing domains. AIR-BJ and AIR-GZ are used for air quality
+forecasting~\cite{wen2023diffstg}, while PEMS03, PEMS04, PEMS07, and
+PEMS08 are used for traffic flow forecasting~\cite{zhang2026msthg}.
+For all datasets, the first feature is selected as the prediction
+target. Dataset statistics are summarized in
+Table~\ref{tab:dataset_statistics}.
+
+\begin{table}[h]
+    \centering
+    \caption{Statistics of the six urban sensing datasets.}
+    \label{tab:dataset_statistics}
+    \small
+    \setlength{\tabcolsep}{5pt}
+    \begin{tabular}{@{}llrrc@{}}
+        \toprule
+        Domain & Dataset & Time steps & Nodes & Interval \\
+        \midrule
+        Air quality  & AIR-BJ  & 8,760  & 34  & 1 hour \\
+        Air quality  & AIR-GZ  & 8,760  & 41  & 1 hour \\
+        Traffic flow & PEMS03  & 26,208 & 358 & 5 min  \\
+        Traffic flow & PEMS04  & 16,992 & 307 & 5 min  \\
+        Traffic flow & PEMS07  & 28,224 & 883 & 5 min  \\
+        Traffic flow & PEMS08  & 17,856 & 170 & 5 min  \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\begin{table*}[t]
+\centering
+\caption{Forecasting performance on AIR-BJ, AIR-GZ, and PEMS08.
+Best results are shown in
+bold and second-best results are underlined. Methods marked with
+$\dagger$ are reproduced under the same experimental protocol as
+FAST-STG; the remaining baseline results follow the published
+DiffSTG evaluation setting.}
+\label{tab:probabilistic_results}
+\small
+\setlength{\tabcolsep}{3.8pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{@{}llccccccccc@{}}
+\toprule
+& &
+\multicolumn{3}{c}{AIR-BJ}
+& \multicolumn{3}{c}{AIR-GZ}
+& \multicolumn{3}{c}{PEMS08} \\
+\cmidrule(lr){3-5}
+\cmidrule(lr){6-8}
+\cmidrule(lr){9-11}
+
+Method & Venue
+& MAE $\downarrow$ & RMSE $\downarrow$ & CRPS $\downarrow$
+& MAE $\downarrow$ & RMSE $\downarrow$ & CRPS $\downarrow$
+& MAE $\downarrow$ & RMSE $\downarrow$ & CRPS $\downarrow$ \\
+\midrule
+
+Latent ODE~\cite{rubanova2019latent}
+& NeurIPS'19
+& 20.61 & 32.27 & 0.47
+& 12.92 & 18.76 & 0.30
+& 26.05 & 39.50 & 0.11 \\
+
+DeepAR~\cite{salinas2020deepar}
+& IJF'20
+& 20.15 & 32.09 & 0.37
+& 11.77 & 17.45 & 0.23
+& 21.56 & 33.37 & 0.07 \\
+
+CSDI~\cite{tashiro2021csdi}
+& NeurIPS'21
+& 26.52 & 40.33 & 0.50
+& 13.75 & 19.40 & 0.28
+& 32.11 & 47.40 & 0.11 \\
+
+TimeGrad~\cite{rasul2021timegrad}
+& ICML'21
+& 18.64 & 31.86 & 0.36
+& 12.36 & 18.15 & 0.25
+& 24.46 & 38.06 & 0.09 \\
+
+MC Dropout~\cite{wu2021uncertainty}
+& KDD'21
+& 20.80 & 40.54 & 0.45
+& 11.12 & 17.07 & 0.25
+& 19.01 & 29.35 & 0.07 \\
+
+DiffSTG~\cite{wen2023diffstg}
+& SIGSPATIAL'23
+& 17.88 & 29.60 & 0.34
+& 10.95 & 16.66 & 0.22
+& 17.68 & 27.13 & \underline{0.06} \\
+
+SpecSTG$\dagger$~\cite{lin2025specstg}
+& ICLR-W'25
+& 19.09 & 31.78 & 0.35
+& 10.89 & \underline{16.12} & 0.20
+& 17.21 & 26.49 & \underline{0.06} \\
+
+NsDiff$\dagger$~\cite{ye2025nsdiff}
+& ICML'25
+& 19.06 & 30.96 & 0.36
+& 11.22 & 16.48 & 0.21
+& 20.09 & 30.25 & 0.07 \\
+
+CW-Diff$\dagger$~\cite{yang2026cwgen}
+& ICLR'26
+& \underline{17.73} & \textbf{25.09} & 0.36
+& 24.60 & 38.06 & 0.49
+& 25.84 & 39.20 & 0.09 \\
+
+CW-Flow$\dagger$~\cite{yang2026cwgen}
+& ICLR'26
+& 18.12 & 30.78 & 0.34
+& 11.57 & 17.07 & 0.21
+& 18.11 & 27.38 & 0.07 \\
+
+CoST$\dagger$~\cite{sheng2026cost}
+& KDD'26
+& 18.60 & 30.28 & \underline{0.33}
+& \underline{10.67} & 16.49 & \underline{0.19}
+& \underline{15.89} & \underline{24.98} & \underline{0.06} \\
+
+\midrule
+
+\textbf{FAST-STG}
+& \textbf{Ours}
+& \textbf{16.35} & \underline{27.57} & \textbf{0.29}
+& \textbf{10.00} & \textbf{15.00} & \textbf{0.18}
+& \textbf{15.66} & \textbf{24.53} & \textbf{0.05} \\
+
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsubsection{Baselines}
+\label{sec:baselines}
+
+For probabilistic forecasting, we compare FAST-STG with eleven
+representative baselines. DeepAR~\cite{salinas2020deepar} models
+predictive distributions through autoregressive likelihoods, while
+Latent ODE~\cite{rubanova2019latent} and MC
+Dropout~\cite{wu2021uncertainty} provide continuous-dynamics and
+uncertainty-estimation baselines. TimeGrad~\cite{rasul2021timegrad} and
+CSDI~\cite{tashiro2021csdi} represent diffusion-based probabilistic
+time-series models. For spatio-temporal graph forecasting, we include
+DiffSTG~\cite{wen2023diffstg} and SpecSTG~\cite{lin2025specstg}.
+Recent approaches that separate predictable conditional structure from
+stochastic variation include NsDiff~\cite{ye2025nsdiff},
+CW-Gen~\cite{yang2026cwgen}, instantiated as CW-Diff and CW-Flow, and
+CoST~\cite{sheng2026cost}. SpecSTG, NsDiff, CW-Diff, CW-Flow, and CoST
+are reproduced under the same experimental setting as FAST-STG,
+including identical data splits and evaluation protocols.
+
+For point forecasting, we use the mean of the generated trajectories
+as the prediction of FAST-STG and compare it with representative
+deterministic spatio-temporal forecasting methods, including
+STGCN~\cite{yu2018spatio}, DCRNN~\cite{li2018diffusion},
+Graph WaveNet~\cite{wu2019graph}, ASTGCN~\cite{guo2019attention}, AGCRN~\cite{bai2020adaptive}, STGODE~\cite{fang2021stgode}, and
+STG-NCDE~\cite{choi2022stgncde}. These baselines cover graph
+convolution and recurrent modeling, adaptive graph learning,
+attention-based forecasting, and continuous spatio-temporal dynamics.
+Complete point forecasting results on PEMS03, PEMS04, PEMS07, and
+PEMS08 are reported in Appendix~\ref{app:point_results}.
+
+\subsubsection{Evaluation Metrics}
+\label{sec:metrics}
+
+We evaluate both point forecasting accuracy and probabilistic forecast
+quality. Given $S$ generated trajectories
+$\{\hat{y}_{i}^{(s)}\}_{s=1}^{S}$ for target $y_i$, we use their
+predictive mean
+%
+\begin{equation}
+\bar{y}_{i}
+=
+\frac{1}{S}
+\sum_{s=1}^{S}
+\hat{y}_{i}^{(s)}
+\end{equation}
+%
+as the point forecast and report Mean Absolute Error (MAE) and Root
+Mean Squared Error (RMSE), where lower values indicate better point
+forecasting accuracy.
+
+For probabilistic evaluation, we use the Continuous Ranked Probability
+Score (CRPS)~\cite{gneiting2007scoring} as the primary metric. Let
+$F_i$ denote the predictive cumulative distribution for $y_i$. CRPS is
+defined as
+%
+\begin{equation}
+\mathrm{CRPS}(F_i,y_i)
+=
+\int_{\mathbb{R}}
+\left(
+F_i(z)-\mathbb{I}\{y_i\leq z\}
+\right)^{2}
+\mathrm{d}z,
+\label{eq:crps}
+\end{equation}
+%
+where lower values indicate better probabilistic forecasts. Since
+FAST-STG represents the predictive distribution through generated
+trajectories, CRPS is estimated empirically from the forecast samples
+following the adopted evaluation protocol. We further evaluate
+prediction-interval calibration and sharpness using
+PICP$_{90}$, PIW$_{90}$, and MIS$_{90}$, with their definitions and
+results reported in Appendix~\ref{app:interval_metrics}.
+
+\subsubsection{Implementation Details}
+\label{sec:implementation}
+
+All datasets are chronologically split into training, validation, and
+test sets with a ratio of $6:2:2$ and standardized using statistics
+computed from the training set. We use 12 historical steps to predict
+the subsequent 12 steps. FAST-STG employs UGNet with a hidden dimension of 32, while the
+conditional coordinate estimator uses a hidden dimension of 128 and
+bounds the predicted scale within $[10^{-3},5]$. The location
+correction scale in Eq.~\eqref{eq:conditional_location_scale} is set to
+$\alpha_{\mu}=0.1$. The coordinate estimator is pretrained for five
+epochs and then frozen before transport learning. FAST-STG is
+optimized using Adam with a learning rate of $2\times10^{-3}$ and a
+batch size of 8 for at most 300 epochs. Early stopping is applied with
+a patience of 10 epochs.
+
+During inference, the future innovation state is initialized from
+$\mathcal{N}(\mathbf{0},\mathbf{I})$ and evolved through $K=20$
+Euler--Maruyama steps. The numerical stability constant in the
+endpoint-induced transport field is set to $\delta=10^{-3}$. We use
+$g(\tau)=\gamma(1-\tau)$ with $\gamma=0.08$, $0.08$, and $0.05$ for
+AIR-BJ, AIR-GZ, and the PEMS datasets, respectively. Unless otherwise
+specified, $S=100$ forecast trajectories are generated for probabilistic
+evaluation. All experiments are conducted on a single NVIDIA GeForce
+RTX 2080 Ti GPU.
+
+\subsection{Probabilistic Forecasting Performance}
+\label{sec:probabilistic_performance}
+
+We evaluate FAST-STG on AIR-BJ, AIR-GZ, and PEMS08.
+Table~\ref{tab:probabilistic_results} reports MAE and RMSE for point
+forecasting accuracy and CRPS for probabilistic forecast quality.
+
+FAST-STG achieves the lowest CRPS on all three datasets, yielding
+relative reductions of approximately $12.1\%$, $5.3\%$, and $16.7\%$
+over the best baseline results on AIR-BJ, AIR-GZ, and PEMS08,
+respectively. It also achieves the lowest MAE across all three datasets
+and the lowest RMSE on AIR-GZ and PEMS08. On AIR-BJ, CW-Diff obtains
+the lowest RMSE, while FAST-STG ranks second in RMSE and achieves the
+best MAE and CRPS. Overall, these results indicate that FAST-STG
+improves probabilistic forecast quality while retaining competitive
+point forecasting accuracy.
+
+Figure~\ref{fig:qualitative_results} provides representative
+probabilistic forecasts from FAST-STG, DiffSTG, and CoST. In the
+illustrated cases, FAST-STG closely tracks the observed future
+trajectories while producing relatively concentrated prediction
+intervals. The predictive mean remains responsive to local temporal
+changes across both air quality and traffic flow scenarios, while the
+associated intervals reflect the uncertainty surrounding the future
+trajectory. Compared with the baselines, FAST-STG exhibits a favorable
+balance between trajectory accuracy and uncertainty concentration in
+these representative cases. These examples complement the quantitative
+CRPS comparison by illustrating how the learned predictive distribution
+behaves across different urban sensing scenarios.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{Figs/Combined.pdf}
+    \caption{
+    Qualitative comparison on AIR-BJ, AIR-GZ, and PEMS08.
+Rows show representative nodes and columns compare FAST-STG, DiffSTG,
+and CoST. The vertical dashed line marks the forecast origin; solid
+lines, dashed lines, and shaded regions indicate the ground truth,
+predictive mean, and 90\% prediction interval.
+    }
+    \label{fig:qualitative_results}
+\end{figure}
+
+\subsection{Component Ablation Study}
+\label{sec:ablation}
+
+We conduct controlled ablations on AIR-BJ, AIR-GZ, and PEMS08 to
+examine the contributions of the key design choices in FAST-STG.
+We consider five variants. \emph{Joint-window raw} performs stochastic
+transport over the concatenated historical and future window in the raw
+observation space. \emph{Future-only raw} restricts stochastic
+evolution to the unknown future, isolating the effect of future-only
+transport. \emph{Future-only mean-centered} further removes the
+conditional location but does not apply scale normalization.
+\emph{Location-scale w/o graph} removes graph conditioning from the
+coordinate estimator, while \emph{location-scale w/o freezing} jointly
+optimizes the coordinate estimator and transport model instead of
+pretraining and freezing the estimator. All variants use the same UGNet
+backbone, data splits, optimization budget, and $K=20$ sampling steps.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{Figs/Figure5-消融实验图.pdf}
+    \caption{
+    Component ablation results on AIR-BJ, AIR-GZ, and PEMS08 in terms
+    of MAE, RMSE, and CRPS.
+    }
+    \label{fig:ablation_visualization}
+\end{figure}
+
+Figure~\ref{fig:ablation_visualization} compares the component variants
+of FAST-STG. Moving from joint-window transport to future-only transport
+generally improves forecasting performance, supporting the benefit of
+aligning the stochastic state with the unknown future. Introducing
+conditional centering and scale normalization provides further gains,
+while removing graph conditioning degrades the learned coordinates.
+Jointly optimizing the coordinate estimator and transport model also
+leads to consistently worse performance than the staged training
+strategy. The complete FAST-STG achieves the lowest MAE, RMSE, and CRPS
+across all three datasets, indicating that future-only transport,
+graph-conditioned location and scale coordinates, and coordinate
+freezing provide complementary benefits.
+
+\subsection{Sensitivity and Efficiency Analysis}
+\label{sec:sensitivity}
+
+We analyze the sensitivity of FAST-STG to the number of sampling steps
+$K$, stochastic intensity $\gamma$, number of generated trajectories
+$S$, and coordinate pretraining epochs $E_{\mathrm{LS}}$ on AIR-GZ.
+As shown in Figure~\ref{fig:sensitivity}, FAST-STG achieves the best
+overall performance at $K=20$ and $E_{\mathrm{LS}}=5$. Performance
+remains stable for $\gamma\in[0.02,0.10]$, with a slight degradation
+at $\gamma=0.15$. Increasing $S$ generally improves forecasting
+quality: MAE and RMSE improve substantially up to $S=100$ and then
+saturate, while CRPS continues to decrease slightly at $S=200$.
+Considering both forecasting quality and sampling cost, we adopt
+$K=20$, $\gamma=0.08$, $S=100$, and $E_{\mathrm{LS}}=5$ as the
+default configuration.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]
+    {Figs/AIR-GZ_hyperparameters_2x2.pdf}
+    \caption{
+    Sensitivity analysis of FAST-STG on AIR-GZ with respect to
+    (a) the number of sampling steps $K$,
+    (b) stochastic intensity $\gamma$,
+    (c) the number of generated trajectories $S$, and
+    (d) coordinate pretraining epochs $E_{\mathrm{LS}}$.
+    MAE and RMSE are shown on the left axis, while CRPS is shown
+    on the right axis. Lower values indicate better performance.
+    }
+    \label{fig:sensitivity}
+\end{figure}
+
+\paragraph{Computational Efficiency.}
+Table~\ref{tab:efficiency} compares inference efficiency on AIR-BJ
+under the same hardware and sampling protocol. FAST-STG contains
+$0.910$M parameters and requires $20$ neural function evaluations
+(NFEs) per trajectory. Its inference latency is $10.36$ ms per
+trajectory, lower than DiffSTG and CoST but higher than the remaining
+baselines. FAST-STG also maintains a compact parameter footprint and
+moderate GPU memory consumption of $0.24$ GB. Together with the
+forecasting results in Table~\ref{tab:probabilistic_results}, these
+results characterize the trade-off between probabilistic forecast
+quality and iterative sampling cost.
+
+\begin{table}[h]
+\centering
+\caption{Inference efficiency comparison on AIR-BJ. All methods are
+evaluated under the same hardware and sampling protocol.}
+\label{tab:efficiency}
+\small
+\setlength{\tabcolsep}{4pt}
+\resizebox{\columnwidth}{!}{
+\begin{tabular}{lccccc}
+\toprule
+Method & Params (M) & NFE & Time (s) & ms/Traj. & Mem. (GB) \\
+\midrule
+DiffSTG  & 0.840  & 40  & 3416.34 & 19.63 & 2.86 \\
+SpecSTG  & 0.073  & 600 & 436.40  & 2.53  & 0.13 \\
+NsDiff   & 9.423  & 20  & 682.56  & 3.92  & 0.20 \\
+CW-Diff  & 19.403 & 20  & 780.11  & 4.48  & 0.27 \\
+CW-Flow  & 10.558 & 20  & 245.23  & 1.41  & 0.30 \\
+CoST     & 1.006  & 50  & 1812.33 & 10.48 & 0.02 \\
+FAST-STG & 0.910  & 20  & 1802.42 & 10.36 & 0.24 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+This paper proposes FAST-STG, a forecasting-aligned stochastic
+transport framework that addresses generation-object and
+generation-coordinate misalignment in probabilistic spatio-temporal
+graph forecasting. It keeps observed history fixed, restricts stochastic
+evolution to the unknown future, and performs transport in graph- and
+history-conditioned location-scale coordinates. A staged training strategy further separates coordinate estimation from transport learning. Experiments on six real-world air quality and traffic flow datasets demonstrate improved probabilistic forecast quality with competitive point forecasting accuracy, supported by extensive ablation and analysis.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{sample-base}
+
+\clearpage
+\appendix
+
+\section{Additional Point Forecasting Results}
+\label{app:point_results}
+
+We further evaluate the point forecasting performance of FAST-STG on
+PEMS03, PEMS04, PEMS07, and PEMS08. For FAST-STG, point predictions are
+obtained by averaging the generated future trajectories. Following the
+main experimental protocol, we report MAE, RMSE, and MAPE over the
+12-step forecasting horizon. Table~\ref{tab:point_results} compares
+FAST-STG with the deterministic spatio-temporal forecasting baselines
+introduced in Section~\ref{sec:baselines}, providing an additional
+assessment of whether probabilistic generation preserves competitive
+point forecasting accuracy.
+
+Table~\ref{tab:point_results} shows that FAST-STG remains competitive
+with dedicated deterministic forecasting models across the four
+traffic flow datasets. In particular, FAST-STG achieves the second-best
+MAE and MAPE on PEMS03 and the second-best RMSE on PEMS08, while
+maintaining comparable performance on the remaining datasets. These
+results indicate that learning a probabilistic predictive distribution
+does not substantially compromise the point forecasting capability of
+FAST-STG.
+
+\begin{table*}[t]
+\centering
+\caption{
+Point forecasting performance on PEMS03, PEMS04, PEMS07, and PEMS08. Best results are shown in
+bold and second-best results are underlined.
+}
+\label{tab:point_results}
+\small
+\setlength{\tabcolsep}{3.6pt}
+\renewcommand{\arraystretch}{1.08}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{@{}lcccccccccccc@{}}
+\toprule
+&
+\multicolumn{3}{c}{PEMS03} &
+\multicolumn{3}{c}{PEMS04} &
+\multicolumn{3}{c}{PEMS07} &
+\multicolumn{3}{c}{PEMS08} \\
+\cmidrule(lr){2-4}
+\cmidrule(lr){5-7}
+\cmidrule(lr){8-10}
+\cmidrule(lr){11-13}
+
+Method
+& MAE $\downarrow$ & RMSE $\downarrow$ & MAPE (\%) $\downarrow$
+& MAE $\downarrow$ & RMSE $\downarrow$ & MAPE (\%) $\downarrow$
+& MAE $\downarrow$ & RMSE $\downarrow$ & MAPE (\%) $\downarrow$
+& MAE $\downarrow$ & RMSE $\downarrow$ & MAPE (\%) $\downarrow$ \\
+\midrule
+
+STGCN~\cite{yu2018spatio}
+& 17.49 & 30.12 & 17.15
+& 22.70 & 35.55 & 14.59
+& 25.38 & 38.78 & 11.08
+& 18.02 & 27.83 & 11.40 \\
+
+DCRNN~\cite{li2018diffusion}
+& 18.18 & 30.31 & 18.91
+& 24.70 & 38.12 & 17.12
+& 25.30 & 38.58 & 11.66
+& 17.86 & 27.83 & 11.45 \\
+
+Graph WaveNet~\cite{wu2019graph}
+& 19.85 & 32.94 & 19.31
+& 25.45 & 39.70 & 17.29
+& 26.85 & 42.78 & 12.12
+& 19.13 & 31.05 & 12.68 \\
+
+ASTGCN~\cite{guo2019attention}
+& 17.69 & 29.66 & 19.40
+& 22.93 & 35.22 & 16.56
+& 28.05 & 42.57 & 13.92
+& 18.61 & 28.16 & 13.08 \\
+
+AGCRN~\cite{bai2020adaptive}
+& \textbf{15.24} & \textbf{26.65} & 15.89
+& \underline{19.38} & \underline{31.25} & \underline{13.40}
+& \underline{20.57} & \underline{34.40} & \textbf{8.74}
+& \textbf{15.32} & \textbf{24.41} & \underline{10.03} \\
+
+STGODE~\cite{fang2021stgode}
+& 16.50 & 27.84 & 16.69
+& 20.84 & 32.82 & 13.77
+& 22.99 & 37.54 & 10.14
+& 16.81 & 25.97 & 10.62 \\
+
+STG-NCDE~\cite{choi2022stgncde}
+& 15.57 & \underline{27.09} & \textbf{15.06}
+& \textbf{19.21} & \textbf{31.09} & \textbf{12.76}
+& \textbf{20.53} & \textbf{33.84} & \underline{8.80}
+& \underline{15.45} & 24.81 & \textbf{9.92} \\
+
+\midrule
+
+\textbf{FAST-STG}
+& \underline{15.49} & 29.87 & \underline{15.84}
+& 20.11 & 32.08 & 13.49
+& 22.15 & 34.67 & 9.17
+& 15.66 & \underline{24.53} & 10.25 \\
+
+\bottomrule
+\end{tabular}}
+\end{table*}
+
+\section{Additional Experimental Details}
+\label{app:experimental_details}
+
+This section provides supplementary details to improve the
+reproducibility of FAST-STG. We first summarize the two-stage training
+procedure and stochastic inference process in algorithmic form, and
+then report the exact numerical results underlying the sensitivity
+analysis presented in the main text. These additional details
+complement the methodological descriptions in Section~\ref{sec:method}
+and the experimental settings in Section~\ref{sec:experimental_setup}.
+
+\subsection{Training Procedure}
+\label{app:training_procedure}
+
+Algorithm~\ref{alg:training} summarizes the complete two-stage training
+procedure of FAST-STG. In Stage I, the conditional coordinate estimator
+$f_{\phi}$ is optimized using the location-scale objective in
+Eq.~\eqref{eq:ls_loss}. The best estimator parameters
+$\phi^{\star}$ are selected according to the validation negative
+log-likelihood and then frozen. In Stage II, the fixed coordinate
+estimator defines standardized future innovations, and the transport
+backbone $\operatorname{UGNet}_{\theta}$ is optimized using the endpoint
+prediction objective in Eq.~\eqref{eq:transport_loss}. Model selection
+is performed according to validation CRPS with early stopping. This
+staged procedure keeps the conditional coordinate system fixed
+throughout transport learning.
+
+\begin{algorithm}[h]
+\caption{Two-Stage Training of FAST-STG}
+\label{alg:training}
+\begin{algorithmic}[1]
+
+\Require Training set $\mathcal{D}_{\mathrm{tr}}$;
+validation set $\mathcal{D}_{\mathrm{val}}$;
+spatial graph $\mathbf{A}$;
+coordinate estimator $f_{\phi}$;
+transport backbone $\operatorname{UGNet}_{\theta}$;
+maximum epoch budget $E$;
+coordinate pretraining epochs $E_{\mathrm{LS}}$
+
+\Ensure Selected parameters $\phi^{\star}$ and $\theta^{\star}$
+
+\Statex
+\Statex \textbf{Stage I: Conditional coordinate pretraining}
+
+\State Freeze $\theta$ and enable gradients for $\phi$
+\State $\ell_{\mathrm{LS}}^{\star}\gets+\infty$
+
+\For{$e=1,\ldots,E_{\mathrm{LS}}$}
+
+    \ForAll{minibatches
+    $(\mathbf{X}^{\mathrm{his}},
+    \mathbf{X}^{\mathrm{fut}})
+    \sim\mathcal{D}_{\mathrm{tr}}$}
+
+        \State $(\boldsymbol{\mu}_{\phi},
+        \boldsymbol{\sigma}_{\phi})
+        \gets
+        f_{\phi}
+        (\mathbf{X}^{\mathrm{his}},\mathbf{A})$
+
+        \State Compute $\mathcal{L}_{\mathrm{LS}}(\phi)$
+        using Eq.~\eqref{eq:ls_loss}
+
+        \State Update $\phi$ by minimizing
+        $\mathcal{L}_{\mathrm{LS}}$
+
+    \EndFor
+
+    \State $\ell_{\mathrm{LS}}
+    \gets
+    \operatorname{ValNLL}
+    (f_{\phi},\mathcal{D}_{\mathrm{val}})$
+
+    \If{$\ell_{\mathrm{LS}}
+    <\ell_{\mathrm{LS}}^{\star}$}
+
+        \State $\phi^{\star}\gets\phi$
+
+        \State $\ell_{\mathrm{LS}}^{\star}
+        \gets\ell_{\mathrm{LS}}$
+
+    \EndIf
+
+\EndFor
+
+\State Restore $\phi\gets\phi^{\star}$
+\State Freeze $\phi$ and enable gradients for $\theta$
+
+\Statex
+\Statex \textbf{Stage II: Future-only transport learning}
+
+\For{$e=E_{\mathrm{LS}}+1,\ldots,E$}
+
+    \ForAll{minibatches
+    $(\mathbf{X}^{\mathrm{his}},
+    \mathbf{X}^{\mathrm{fut}})
+    \sim\mathcal{D}_{\mathrm{tr}}$}
+
+        \State $(\boldsymbol{\mu}_{\phi^{\star}},
+        \boldsymbol{\sigma}_{\phi^{\star}})
+        \gets
+        f_{\phi^{\star}}
+        (\mathbf{X}^{\mathrm{his}},\mathbf{A})$
+
+        \State $\mathbf{R}^{\mathrm{fut}}
+        \gets
+        \operatorname{sg}
+        \left[
+        \left(
+        \mathbf{X}^{\mathrm{fut}}
+        -
+        \boldsymbol{\mu}_{\phi^{\star}}
+        \right)
+        \oslash
+        \boldsymbol{\sigma}_{\phi^{\star}}
+        \right]$
+
+        \State Sample
+        $\mathbf{Z}_{0}
+        \sim
+        \mathcal{N}(\mathbf{0},\mathbf{I})$
+        and
+        $\tau\sim\mathcal{U}(0,1)$
+
+        \State $\mathbf{Z}_{\tau}
+        \gets
+        (1-\tau)\mathbf{Z}_{0}
+        +
+        \tau\mathbf{R}^{\mathrm{fut}}$
+
+        \State $\overline{\mathbf{Z}}_{\tau}
+        \gets
+        \operatorname{Cat}_{t}
+        \left(
+        \mathbf{X}^{\mathrm{his}},
+        \mathbf{Z}_{\tau}
+        \right)$
+
+        \State $\mathbf{C}
+        \gets
+        \operatorname{Cat}_{t}
+        \left(
+        \mathbf{X}^{\mathrm{his}},
+        \mathbf{0}
+        \right)$
+
+        \State $\widehat{\mathbf{R}}_{\theta}^{\mathrm{fut}}
+        \gets
+        \Pi_{\mathrm{fut}}
+        \left[
+        \operatorname{UGNet}_{\theta}
+        \left(
+        \overline{\mathbf{Z}}_{\tau},
+        \tau;
+        \mathbf{C},
+        \mathbf{A}
+        \right)
+        \right]$
+
+        \State Compute
+        $\mathcal{L}_{\mathrm{T}}(\theta)$
+        using Eq.~\eqref{eq:transport_loss}
+
+        \State Update $\theta$ while keeping
+        $\phi^{\star}$ frozen
+
+    \EndFor
+
+    \State Evaluate validation CRPS using a fixed
+    number of forecast trajectories
+
+    \If{validation CRPS improves}
+        \State $\theta^{\star}\gets\theta$
+    \EndIf
+
+    \If{early-stopping criterion is satisfied}
+        \State \textbf{break}
+    \EndIf
+
+\EndFor
+
+\State \Return $\phi^{\star},\theta^{\star}$
+
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Inference Procedure}
+\label{app:inference_procedure}
+
+Algorithm~\ref{alg:inference} summarizes the complete stochastic
+inference procedure of FAST-STG. The selected coordinate estimator
+$f_{\phi^{\star}}$ and transport backbone
+$\operatorname{UGNet}_{\theta^{\star}}$ remain fixed throughout
+inference. The conditional location and scale are first computed from
+the normalized historical observations and spatial graph. For each
+forecast trajectory, FAST-STG initializes the future innovation state
+from a standard Gaussian distribution and iteratively predicts the
+clean future endpoint from the current state. The corresponding
+endpoint-induced transport direction is combined with a time-dependent
+stochastic term and integrated using Euler--Maruyama updates. After
+$K$ steps, the generated innovation is transformed back through the
+conditional location and scale coordinates. Repeating the procedure
+produces $S$ probabilistic forecast trajectories.
+
+\begin{algorithm}[h]
+\caption{Stochastic Inference of FAST-STG}
+\label{alg:inference}
+\begin{algorithmic}[1]
+
+\Require Normalized observed history
+$\mathbf{X}^{\mathrm{his}}$;
+spatial graph $\mathbf{A}$;
+selected coordinate estimator $f_{\phi^{\star}}$;
+selected transport backbone
+$\operatorname{UGNet}_{\theta^{\star}}$;
+sampling steps $K$;
+stochastic intensity $\gamma$;
+number of trajectories $S$;
+stability constant $\delta$
+
+\Ensure Forecast trajectories
+$\left\{
+\widehat{\mathbf{X}}^{\mathrm{fut},(s)}
+\right\}_{s=1}^{S}$
+
+\State $(\boldsymbol{\mu}_{\phi^{\star}},
+\boldsymbol{\sigma}_{\phi^{\star}})
+\gets
+f_{\phi^{\star}}
+\left(
+\mathbf{X}^{\mathrm{his}},
+\mathbf{A}
+\right)$
+
+\State $\mathbf{C}
+\gets
+\operatorname{Cat}_{t}
+\left(
+\mathbf{X}^{\mathrm{his}},
+\mathbf{0}
+\right)$
+
+\State $\Delta\tau\gets 1/K$
+
+\For{$s=1,\ldots,S$}
+
+    \State Sample
+    $\mathbf{Z}_{0}^{(s)}
+    \sim
+    \mathcal{N}(\mathbf{0},\mathbf{I})$
+
+    \For{$k=0,\ldots,K-1$}
+
+        \State $\tau_k\gets k\Delta\tau$
+
+        \State $\overline{\mathbf{Z}}_{k}^{(s)}
+        \gets
+        \operatorname{Cat}_{t}
+        \left(
+        \mathbf{X}^{\mathrm{his}},
+        \mathbf{Z}_{k}^{(s)}
+        \right)$
+
+        \State $\widehat{\mathbf{R}}_{\theta^{\star},k}^{\mathrm{fut},(s)}
+        \gets
+        \Pi_{\mathrm{fut}}
+        \left[
+        \operatorname{UGNet}_{\theta^{\star}}
+        \left(
+        \overline{\mathbf{Z}}_{k}^{(s)},
+        \tau_k;
+        \mathbf{C},
+        \mathbf{A}
+        \right)
+        \right]$
+
+        \State $\mathbf{v}_{k}^{(s)}
+        \gets
+        \dfrac{
+        \widehat{\mathbf{R}}_{\theta^{\star},k}^{\mathrm{fut},(s)}
+        -
+        \mathbf{Z}_{k}^{(s)}
+        }{
+        1-\tau_k+\delta
+        }$
+
+        \State $g_k\gets\gamma(1-\tau_k)$
+
+        \State Sample
+        $\boldsymbol{\epsilon}_{k}^{(s)}
+        \sim
+        \mathcal{N}(\mathbf{0},\mathbf{I})$
+
+        \State $\mathbf{Z}_{k+1}^{(s)}
+        \gets
+        \mathbf{Z}_{k}^{(s)}
+        +
+        \Delta\tau\,
+        \mathbf{v}_{k}^{(s)}
+        +
+        g_k\sqrt{\Delta\tau}\,
+        \boldsymbol{\epsilon}_{k}^{(s)}$
+
+    \EndFor
+
+    \State $\widehat{\mathbf{X}}^{\mathrm{fut},(s)}
+    \gets
+    \boldsymbol{\mu}_{\phi^{\star}}
+    +
+    \boldsymbol{\sigma}_{\phi^{\star}}
+    \odot
+    \mathbf{Z}_{K}^{(s)}$
+
+\EndFor
+
+\State \Return
+$\left\{
+\widehat{\mathbf{X}}^{\mathrm{fut},(s)}
+\right\}_{s=1}^{S}$
+
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Detailed Sensitivity Results}
+\label{app:sensitivity_details}
+
+To complement the compact sensitivity visualization in
+Figure~\ref{fig:sensitivity}, we provide enlarged results for each
+hyperparameter on AIR-GZ. In each experiment, only the parameter under
+study is varied while the remaining settings are fixed to their default
+values. Figures~\ref{fig:sensitivity_k}--\ref{fig:sensitivity_els}
+report the corresponding MAE, RMSE, and CRPS values.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]
+    {Figs/AIR-GZ_K_sensitivity.pdf}
+    \caption{
+    Sensitivity to the number of sampling steps $K$ on AIR-GZ.
+    FAST-STG achieves the best overall performance at $K=20$.
+    Lower values are better for all metrics.
+    }
+    \label{fig:sensitivity_k}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]
+    {Figs/AIR-GZ_gamma_sensitivity.pdf}
+    \caption{
+    Sensitivity to the stochastic intensity $\gamma$ on AIR-GZ.
+    Performance remains stable for $\gamma\in[0.02,0.10]$ and
+    slightly degrades at $\gamma=0.15$.
+    Lower values are better for all metrics.
+    }
+    \label{fig:sensitivity_gamma}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]
+    {Figs/AIR-GZ_S_sensitivity.pdf}
+    \caption{
+    Sensitivity to the number of generated trajectories $S$ on AIR-GZ.
+    MAE and RMSE attain their lowest values at $S=100$, while CRPS
+    continues to improve at $S=200$.
+    Lower values are better for all metrics.
+    }
+    \label{fig:sensitivity_s}
+\end{figure}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]
+    {Figs/AIR-GZ_ELS_sensitivity.pdf}
+    \caption{
+    Sensitivity to the coordinate pretraining epochs
+    $E_{\mathrm{LS}}$ on AIR-GZ.
+    The best overall performance is obtained with
+    $E_{\mathrm{LS}}=5$.
+    Lower values are better for all metrics.
+    }
+    \label{fig:sensitivity_els}
+\end{figure}
+
+For the number of sampling steps, $K=20$ achieves an MAE of
+$10.0037$, an RMSE of $15.0019$, and a CRPS of $0.1821$, outperforming
+the other evaluated step counts. The results are comparatively
+insensitive to the stochastic intensity: $\gamma=0.02$, $0.05$,
+$0.08$, and $0.10$ produce nearly identical performance, whereas
+$\gamma=0.15$ results in a slight degradation. We therefore use
+$\gamma=0.08$ as the default setting.
+
+Increasing the number of generated trajectories generally improves
+forecast quality. At $S=100$, FAST-STG obtains its lowest MAE and RMSE
+of $10.0037$ and $15.0019$, respectively, while increasing to $S=200$
+further reduces CRPS from $0.1821$ to $0.1773$ with little change in
+point accuracy. Considering forecasting quality and sampling cost, we
+use $S=100$ by default. Finally, coordinate pretraining performs best
+at $E_{\mathrm{LS}}=5$, yielding an MAE of $10.0037$, an RMSE of
+$15.0019$, and a CRPS of $0.1821$. These results support the default
+configuration of $K=20$, $\gamma=0.08$, $S=100$, and
+$E_{\mathrm{LS}}=5$ used in the main experiments.
+
+\section{Additional Probabilistic Evaluation}
+\label{app:interval_metrics}
+
+In addition to CRPS reported in the main text, we further evaluate the
+quality of predictive intervals using three complementary metrics:
+prediction interval coverage probability (PICP), prediction interval
+width (PIW), and mean interval score (MIS). These metrics characterize
+different aspects of the predictive distribution, including empirical
+coverage, interval sharpness, and the joint quality of interval width
+and coverage. We report all three metrics at the 90\% prediction level on AIR-BJ,
+providing a complementary assessment of interval calibration and
+sharpness under the unified evaluation setting.
+
+\subsection{Interval-Based Probabilistic Metrics}
+\label{app:interval_metric_definitions}
+
+Given $S$ generated forecast trajectories, we construct a 90\%
+prediction interval for each target entry from the empirical 5th and
+95th percentiles. Let $y_i$ denote the ground-truth value and
+$l_i$ and $u_i$ denote the corresponding lower and upper bounds,
+where $i=1,\ldots,M$ indexes all evaluated future entries.
+
+The prediction interval coverage probability (PICP) measures the
+empirical coverage of the prediction intervals:
+\begin{equation}
+\operatorname{PICP}_{90}
+=
+\frac{1}{M}
+\sum_{i=1}^{M}
+\mathbb{I}
+\left(
+l_i \leq y_i \leq u_i
+\right),
+\label{eq:picp90}
+\end{equation}
+where $\mathbb{I}(\cdot)$ is the indicator function. For a nominal
+90\% interval, values close to $0.90$ indicate agreement between
+empirical and nominal coverage.
+
+The prediction interval width (PIW) evaluates interval sharpness:
+\begin{equation}
+\operatorname{PIW}_{90}
+=
+\frac{1}{M}
+\sum_{i=1}^{M}
+(u_i-l_i).
+\label{eq:piw90}
+\end{equation}
+Under comparable coverage, a smaller PIW indicates sharper predictive
+intervals.
+
+We further use the mean interval score (MIS) to jointly evaluate
+interval width and coverage errors. For a $(1-\alpha)$ prediction
+interval, the interval score is
+\begin{equation}
+\begin{aligned}
+\operatorname{IS}_{\alpha,i}
+={}&
+(u_i-l_i)
++
+\frac{2}{\alpha}(l_i-y_i)
+\mathbb{I}(y_i<l_i)
+\\
+&+
+\frac{2}{\alpha}(y_i-u_i)
+\mathbb{I}(y_i>u_i),
+\end{aligned}
+\label{eq:interval_score}
+\end{equation}
+and for the 90\% interval, with $\alpha=0.1$,
+\begin{equation}
+\operatorname{MIS}_{90}
+=
+\frac{1}{M}
+\sum_{i=1}^{M}
+\operatorname{IS}_{0.1,i}.
+\label{eq:mis90}
+\end{equation}
+A lower MIS indicates better overall interval quality by jointly
+penalizing excessive width and observations falling outside the
+predicted interval.
+
+\subsection{Interval Forecasting Results}
+\label{app:interval_results}
+
+Table~\ref{tab:interval_results} reports the 90\% interval forecasting
+results on AIR-BJ. All methods are evaluated using the same data split,
+preprocessing procedure, and number of generated trajectories. PICP
+measures empirical coverage with a nominal target of $0.90$, while PIW
+reflects interval sharpness under comparable coverage. MIS jointly
+accounts for interval width and coverage errors, with lower values
+indicating better overall interval quality.
+
+\begin{table}[h]
+\centering
+\caption{
+Interval-based probabilistic forecasting results on AIR-BJ.
+PICP is evaluated against the nominal coverage level of $0.90$.
+Lower PIW indicates sharper intervals under comparable coverage,
+while lower MIS indicates better overall interval quality.
+}
+\label{tab:interval_results}
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{lccc}
+\toprule
+Method & PICP$_{90}$ & PIW$_{90}$ & MIS$_{90}$ \\
+\midrule
+DiffSTG  & 0.6987 & 56.54 & 157.91 \\
+SpecSTG  & 0.6415 & 44.00 & 182.73 \\
+NsDiff   & 0.8403 & 53.82 & 144.04 \\
+CW-Diff  & 0.4221 & 24.20 & 281.91 \\
+CW-Flow  & 0.3397 & 13.28 & 265.15 \\
+CoST     & \underline{0.8693} & 60.83 & \underline{108.12} \\
+\midrule
+FAST-STG & \textbf{0.9014} & 69.18 & \textbf{102.38} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+FAST-STG achieves a PICP of $0.9014$, closely matching the nominal
+coverage level of $0.90$, while CoST provides the next closest
+coverage at $0.8693$. Although FAST-STG produces wider prediction
+intervals, the substantially lower coverage of several competing
+methods indicates that their narrower intervals are associated with
+under-coverage. FAST-STG also obtains the lowest MIS of $102.38$,
+improving upon CoST by approximately $5.3\%$. These results indicate
+that FAST-STG provides a favorable balance between empirical coverage
+and interval sharpness, complementing the CRPS results reported in the
+main text.
+
+\end{document}
+\endinput
+%%
+%% End of file `sigconf.tex'.
